@@ -11,30 +11,22 @@ export class App extends Component {
     filter: '',
   };
 
-  componentDidMount(_, prevState) {
+  componentDidMount() {
     const localDataContacts = localStorage.getItem(LOCAL_NAME);
     const parsedLocalDataContacts = JSON.parse(localDataContacts);
-    console.log(parsedLocalDataContacts);
 
-    if (
-      parsedLocalDataContacts &&
-      parsedLocalDataContacts.length !== this.state.contacts.length
-    ) {
+    if (parsedLocalDataContacts) {
       this.setState({ contacts: parsedLocalDataContacts });
     }
   }
 
-  // записать контакты в хранилище, записать контакты из хранилища в стэйт,
   componentDidUpdate(_, prevState) {
-    // записали в хранилище state
-    localStorage.setItem(
-      LOCAL_NAME,
-      JSON.stringify(Array.from(this.state.contacts))
-    );
-    // const localDataContacts = localStorage.getItem(LOCAL_NAME);
-    // const parceLocalDataContats = JSON.parse(localDataContacts);
-    // console.log(parceLocalDataContats);
-    // this.setState({ contacts: parceLocalDataContats });
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(
+        LOCAL_NAME,
+        JSON.stringify(Array.from(this.state.contacts))
+      );
+    }
   }
 
   hendleChangeFilter = event => {
